@@ -148,9 +148,10 @@ export default function Hero() {
                                     transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s',
                                     position: 'relative',
                                     zIndex: 2,
-                                    // Mix blend mode multiply perfectly removes the pure white background of the generated image,
-                                    // making it look like a seamless cutout against the white div.
-                                    mixBlendMode: 'multiply'
+                                    // 'darken' plus slight brightness/contrast ensures the AI-generated slightly off-white bg 
+                                    // gets completely blown out to pure #ffffff, making the image look like an isolated PNG cutout.
+                                    mixBlendMode: 'darken',
+                                    filter: 'contrast(1.08) brightness(1.03)'
                                 }}
                             />
                         </div>
