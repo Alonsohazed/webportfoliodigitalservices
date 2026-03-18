@@ -59,20 +59,22 @@ function useInView(threshold = 0.1) {
 function FeaturedBentoGrid() {
     const topProjects = projects.slice(0, 6)
 
-    // Custom spans for masonry bento layout
-    const gridSpans = [
-        'col-span-12 md:col-span-8',
-        'col-span-12 md:col-span-4',
-        'col-span-12 md:col-span-4',
-        'col-span-12 md:col-span-4',
-        'col-span-12 md:col-span-4',
-        'col-span-12 md:col-span-8',
+    // Custom classes mapping to CSS Grid
+    const gridClasses = [
+        'masonry-span-8',
+        'masonry-span-4',
+        'masonry-span-4',
+        'masonry-span-4',
+        'masonry-span-4',
+        'masonry-span-8',
     ]
 
     return (
-        <div className="grid grid-cols-12 gap-6 mb-16">
+        <div className="masonry-grid" style={{
+            display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '24px', marginBottom: '64px'
+        }}>
             {topProjects.map((p, i) => {
-                const span = gridSpans[i]
+                const spanClass = gridClasses[i]
                 const [hovered, setHovered] = useState(false)
                 const { ref, inView } = useInView(0.1)
 
@@ -82,26 +84,34 @@ function FeaturedBentoGrid() {
                         ref={ref}
                         onMouseEnter={() => setHovered(true)}
                         onMouseLeave={() => setHovered(false)}
-                        className={`${span} group relative overflow-hidden rounded-3xl bg-slate-900/50 border border-white/5 cursor-pointer`}
+                        className={spanClass}
                         style={{
+                            position: 'relative', overflow: 'hidden', borderRadius: '24px',
+                            backgroundColor: 'rgba(15,23,42,0.5)', border: '1px solid rgba(255,255,255,0.05)',
+                            cursor: 'pointer',
                             minHeight: i === 0 || i === 5 ? '460px' : '400px',
                             opacity: inView ? 1 : 0,
                             transform: inView ? 'translateY(0)' : 'translateY(40px)',
-                            transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`,
+                            transition: `opacity 0.6s ease ${i * 0.1}s, transform 0.6s ease ${i * 0.1}s`,
                         }}
                     >
                         {/* Background Image */}
                         <img
                             src={p.image}
                             alt={p.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
-                            style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
+                            style={{
+                                position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                                width: '100%', height: '100%', objectFit: 'cover',
+                                transition: 'transform 0.7s ease-out',
+                                transform: hovered ? 'scale(1.05)' : 'scale(1)',
+                            }}
                         />
 
                         {/* Dark Gradient Overlay */}
                         <div
-                            className="absolute inset-0 transition-opacity duration-500"
                             style={{
+                                position: 'absolute', inset: 0,
+                                transition: 'background 0.5s',
                                 background: hovered
                                     ? `linear-gradient(180deg, rgba(5,13,26,0.2) 0%, rgba(5,13,26,0.85) 60%, rgba(5,13,26,0.98) 100%)`
                                     : `linear-gradient(180deg, rgba(5,13,26,0) 0%, rgba(5,13,26,0.4) 50%, rgba(5,13,26,0.85) 100%)`
@@ -109,10 +119,13 @@ function FeaturedBentoGrid() {
                         />
 
                         {/* Top Badge */}
-                        <div className="absolute top-6 left-6 flex gap-3 z-10">
+                        <div style={{ position: 'absolute', top: '24px', left: '24px', zIndex: 10 }}>
                             <span
-                                className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-md"
-                                style={{ background: 'rgba(5, 13, 26, 0.6)', color: p.color, border: '1px solid rgba(255,255,255,0.1)' }}
+                                style={{
+                                    padding: '6px 16px', borderRadius: '100px', fontSize: '0.75rem', fontWeight: 700,
+                                    letterSpacing: '0.05em', backdropFilter: 'blur(12px)',
+                                    background: 'rgba(5, 13, 26, 0.6)', color: p.color, border: '1px solid rgba(255,255,255,0.1)'
+                                }}
                             >
                                 {p.category}
                             </span>
@@ -120,25 +133,36 @@ function FeaturedBentoGrid() {
 
                         {/* Bottom Content Area */}
                         <div
-                            className="absolute bottom-0 left-0 right-0 p-8 z-10 flex flex-col justify-end transition-all duration-500 ease-out"
                             style={{
+                                position: 'absolute', bottom: 0, left: 0, right: 0, padding: '32px', zIndex: 10,
+                                display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+                                transition: 'transform 0.5s ease-out',
                                 transform: hovered ? 'translateY(0)' : 'translateY(15px)',
                             }}
                         >
-                            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3 tracking-tight">
+                            <h3 style={{
+                                fontSize: 'clamp(1.5rem, 2vw, 1.875rem)', fontWeight: 800, color: '#fff',
+                                marginBottom: '12px', letterSpacing: '-0.025em'
+                            }}>
                                 {p.title}
                             </h3>
 
-                            <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed max-w-[90%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            <p style={{
+                                color: '#cbd5e1', fontSize: '1rem', marginBottom: '24px', lineHeight: 1.6, maxWidth: '90%',
+                                opacity: hovered ? 1 : 0, transition: 'opacity 0.5s ease 0.1s'
+                            }}>
                                 {p.solution}
                             </p>
 
-                            <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
-                                <div className="flex gap-4">
+                            <div style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                opacity: hovered ? 1 : 0, transition: 'opacity 0.5s ease 0.15s'
+                            }}>
+                                <div style={{ display: 'flex', gap: '16px' }}>
                                     {p.metrics.map(m => (
-                                        <div key={m.label} className="flex flex-col">
-                                            <span className="text-lg font-bold" style={{ color: p.color }}>{m.value}</span>
-                                            <span className="text-[0.65rem] uppercase tracking-wider text-slate-400 font-semibold">{m.label}</span>
+                                        <div key={m.label} style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <span style={{ fontSize: '1.125rem', fontWeight: 700, color: p.color }}>{m.value}</span>
+                                            <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8', fontWeight: 600 }}>{m.label}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -146,8 +170,15 @@ function FeaturedBentoGrid() {
                                 {p.demo && (
                                     <button
                                         onClick={(e) => { e.stopPropagation(); scrollToDemo(p.demo); }}
-                                        className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all border border-white/10"
-                                        style={{ color: p.color }}
+                                        style={{
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            width: '48px', height: '48px', borderRadius: '50%',
+                                            background: 'rgba(255,255,255,0.1)', cursor: 'pointer',
+                                            border: '1px solid rgba(255,255,255,0.1)', color: p.color,
+                                            backdropFilter: 'blur(12px)', transition: 'background 0.2s',
+                                        }}
+                                        onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.2)'}
+                                        onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'}
                                     >
                                         <ArrowUpRight size={20} strokeWidth={2.5} />
                                     </button>
@@ -163,41 +194,48 @@ function FeaturedBentoGrid() {
 
 function StandardProjectList({ projectsList }: { projectsList: typeof projects }) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="regular-grid" style={{
+            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px'
+        }}>
             {projectsList.map((p, i) => {
                 const { ref, inView } = useInView(0.05)
                 const Icon = p.icon
+                const [h, setH] = useState(false)
                 return (
                     <div
                         key={p.number}
                         ref={ref}
-                        className="group bg-slate-900/40 border border-slate-800 hover:border-slate-700 rounded-3xl p-8 transition-all duration-300"
+                        onMouseEnter={() => setH(true)}
+                        onMouseLeave={() => setH(false)}
                         style={{
+                            backgroundColor: 'rgba(15,23,42,0.4)', borderRadius: '24px', padding: '32px',
+                            border: `1px solid ${h ? 'rgba(51,65,85,1)' : 'rgba(30,41,59,1)'}`,
+                            transition: 'all 0.3s',
                             opacity: inView ? 1 : 0,
                             transform: inView ? 'translateY(0)' : 'translateY(30px)',
                             transitionDelay: `${(i % 3) * 0.1}s`,
                         }}
                     >
-                        <div className="flex items-center justify-between mb-6">
-                            <div
-                                className="w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-300"
-                                style={{ background: `${p.color}15`, color: p.color }}
-                            >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+                            <div style={{
+                                width: '48px', height: '48px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                background: `${p.color}15`, color: p.color, transition: 'background 0.3s'
+                            }}>
                                 <Icon size={22} strokeWidth={2} />
                             </div>
-                            <span className="text-slate-500 text-sm font-semibold tracking-widest">{p.number}</span>
+                            <span style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.1em' }}>{p.number}</span>
                         </div>
-                        <h4 className="text-lg font-bold text-white mb-3 tracking-tight">{p.title}</h4>
-                        <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: p.color }}>{p.category}</div>
-                        <p className="text-sm text-slate-400 leading-relaxed mb-6 h-[80px] overflow-hidden">
+                        <h4 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#fff', marginBottom: '12px', letterSpacing: '-0.025em' }}>{p.title}</h4>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px', color: p.color }}>{p.category}</div>
+                        <p style={{ fontSize: '0.875rem', color: '#94a3b8', lineHeight: 1.6, marginBottom: '24px', height: '80px', overflow: 'hidden' }}>
                             {p.problem}
                         </p>
-                        <div className="pt-5 border-t border-slate-800/60 flex justify-between items-end">
+                        <div style={{ paddingTop: '20px', borderTop: '1px solid rgba(30,41,59,0.6)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                             <div>
-                                <span className="block text-[0.65rem] uppercase tracking-wider text-slate-500 mb-1">Impact</span>
-                                <span className="text-base font-bold text-slate-200">{p.metrics[0].value} {p.metrics[0].label}</span>
+                                <span style={{ display: 'block', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', marginBottom: '4px' }}>Impact</span>
+                                <span style={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0' }}>{p.metrics[0].value} {p.metrics[0].label}</span>
                             </div>
-                            <ArrowUpRight size={18} className="text-slate-600 group-hover:text-slate-300 transition-colors" />
+                            <ArrowUpRight size={18} style={{ color: h ? '#cbd5e1' : '#475569', transition: 'color 0.3s' }} />
                         </div>
                     </div>
                 )
@@ -212,33 +250,45 @@ export default function Projects() {
     const regularProjects = projects.slice(6)
 
     return (
-        <section id="projects" className="py-32 relative bg-[#020617] overflow-hidden">
+        <section id="projects" style={{
+            paddingTop: '128px', paddingBottom: '128px', position: 'relative', backgroundColor: '#020617', overflow: 'hidden'
+        }}>
             {/* Dynamic Background Glows */}
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+            <div style={{ position: 'absolute', top: 0, left: '25%', width: '600px', height: '600px', background: 'rgba(16, 185, 129, 0.05)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: '25%', width: '800px', height: '800px', background: 'rgba(59, 130, 246, 0.05)', borderRadius: '50%', filter: 'blur(150px)', pointerEvents: 'none' }} />
 
-            <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+            <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 10 }}>
                 <div
                     ref={titleRef}
-                    className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
                     style={{
+                        display: 'flex', flexDirection: 'column', gap: '32px', marginBottom: '80px',
                         opacity: titleVisible ? 1 : 0,
                         transform: titleVisible ? 'translateY(0)' : 'translateY(30px)',
                         transition: 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
+                    className="title-row"
                 >
-                    <div className="max-w-2xl">
-                        <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold tracking-[0.15em] uppercase mb-6">
+                    <div style={{ maxWidth: '672px' }}>
+                        <span style={{
+                            display: 'inline-block', padding: '6px 16px', borderRadius: '100px',
+                            background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)',
+                            color: '#34d399', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '24px'
+                        }}>
                             Case Studies
                         </span>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[1.1]">
+                        <h2 style={{
+                            fontSize: 'clamp(2.25rem, 5vw, 4rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 1.1, margin: 0
+                        }}>
                             Turning Ideas Into <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">
+                            <span className="gradient-text" style={{ backgroundClip: 'text', background: 'linear-gradient(to right, #34d399, #99f6e4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 Masterpieces.
                             </span>
                         </h2>
                     </div>
-                    <p className="text-slate-400 max-w-sm text-base md:text-lg leading-relaxed font-medium">
+                    <p style={{
+                        color: '#94a3b8', maxWidth: '400px', fontSize: '1.125rem', lineHeight: 1.6, fontWeight: 500, margin: 0,
+                        alignSelf: 'flex-end', paddingBottom: '10px'
+                    }}>
                         We deliver innovative strategies that elevate your brand and drive growth. See how our bespoke systems create measurable impact.
                     </p>
                 </div>
@@ -247,27 +297,49 @@ export default function Projects() {
                 <FeaturedBentoGrid />
 
                 {/* Show All / Toggle */}
-                <div className="text-center mt-8">
+                <div style={{ textAlign: 'center', marginTop: '32px' }}>
                     {!showAll ? (
                         <button
                             onClick={() => setShowAll(true)}
-                            className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-bold tracking-wide transition-all hover:scale-105"
+                            style={{
+                                display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '16px 32px',
+                                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '100px', color: '#fff', fontWeight: 700, letterSpacing: '0.025em', cursor: 'pointer',
+                                transition: 'all 0.3s'
+                            }}
+                            onMouseEnter={(e) => {
+                                const el = e.currentTarget as HTMLElement;
+                                el.style.background = 'rgba(255,255,255,0.1)';
+                                el.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                                const el = e.currentTarget as HTMLElement;
+                                el.style.background = 'rgba(255,255,255,0.05)';
+                                el.style.transform = 'scale(1)';
+                            }}
                         >
                             Explore 24 More Projects <ArrowUpRight size={18} />
                         </button>
                     ) : (
                         <>
-                            <div className="mb-12 mt-20 flex items-center justify-between">
-                                <h3 className="text-2xl font-bold text-white tracking-tight">System Archive</h3>
-                                <div className="h-px bg-slate-800 flex-1 mx-6" />
-                                <span className="text-slate-500 font-bold">{regularProjects.length} Projects</span>
+                            <div style={{ marginBottom: '48px', marginTop: '80px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.025em', margin: 0 }}>System Archive</h3>
+                                <div style={{ height: '1px', background: '#1e293b', flex: 1, margin: '0 24px' }} />
+                                <span style={{ color: '#64748b', fontWeight: 700 }}>{regularProjects.length} Projects</span>
                             </div>
                             <StandardProjectList projectsList={regularProjects} />
 
-                            <div className="mt-16">
+                            <div style={{ marginTop: '64px' }}>
                                 <button
                                     onClick={() => setShowAll(false)}
-                                    className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-bold tracking-wide transition-all"
+                                    style={{
+                                        display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '16px 32px',
+                                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                                        borderRadius: '100px', color: '#fff', fontWeight: 700, letterSpacing: '0.025em', cursor: 'pointer',
+                                        transition: 'all 0.3s'
+                                    }}
+                                    onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'}
+                                    onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'}
                                 >
                                     Show Less
                                 </button>
@@ -276,6 +348,23 @@ export default function Projects() {
                     )}
                 </div>
             </div>
+
+            <style>{`
+        .masonry-span-8 { grid-column: span 8 / span 8; }
+        .masonry-span-4 { grid-column: span 4 / span 4; }
+        
+        @media (min-width: 768px) {
+          .title-row { flex-direction: row !important; justify-content: space-between; align-items: flex-end; }
+        }
+        @media (max-width: 1024px) {
+          .masonry-span-8, .masonry-span-4 { grid-column: span 6 / span 6; }
+          .regular-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+          .masonry-span-8, .masonry-span-4 { grid-column: span 12 / span 12 !important; }
+          .regular-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
         </section>
     )
 }
