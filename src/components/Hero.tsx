@@ -136,8 +136,8 @@ export default function Hero() {
                             </svg>
 
                             <img
-                                src="/hero-abstract.png"
-                                alt="3D floating tech cube"
+                                src="/hero-dashboards.png"
+                                alt="3D floating dashboard interfaces"
                                 style={{
                                     maxWidth: '100%',
                                     height: 'auto',
