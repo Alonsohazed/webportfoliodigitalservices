@@ -12,9 +12,11 @@ const projects = [
     { icon: Package, number: '01', title: 'Smart Inventory System', category: 'Web Platform', image: '/projects/inventory.png', problem: 'Manual tracking across spreadsheets caused errors, delays, and zero visibility into stock levels.', solution: 'Custom digital inventory platform with real-time tracking, alerts, and reporting.', impact: 'Reduced errors by 80% and cut stock reconciliation time in half.', color: '#22c55e', metrics: [{ label: 'Error Reduction', value: '80%' }, { label: 'Time Saved', value: '50%' }], demo: 'inventory' },
     { icon: MessageSquare, number: '02', title: 'AI Chatbot Lead Funnel', category: 'AI & Automation', image: '/projects/chatbot.png', problem: 'Website traffic was generating zero qualified leads.', solution: 'Decision-based AI chatbot that qualifies leads, collects details, and routes them automatically.', impact: 'Boosted lead capture rate 3x and automated follow-ups.', color: '#3b82f6', metrics: [{ label: 'Lead Conversion', value: '+3x' }, { label: 'Response Time', value: '0s' }], demo: 'chatbot' },
     { icon: TrendingUp, number: '03', title: 'Business Intelligence Suite', category: 'Data & Analytics', image: '/projects/dashboard.png', problem: 'Hundreds of thousands of raw data rows with no meaningful insights.', solution: 'End-to-end data pipeline with Power BI dashboards and KPI tracking.', impact: 'Strategy meetings cut from 3 hours to 30 minutes.', color: '#f59e0b', metrics: [{ label: 'Reporting Speed', value: '10x' }, { label: 'Decision Accuracy', value: '+65%' }], demo: 'dashboard' },
-    { icon: Tv, number: '04', title: 'Secure Streaming Platform', category: 'Web Platform', image: '/projects/streaming.png', problem: 'Existing setup had compatibility issues, poor UX, and constant drop-offs.', solution: 'Custom-built secure streaming platform with adaptive quality.', impact: 'Zero compatibility complaints, 40% higher session duration.', color: '#8b5cf6', metrics: [{ label: 'Uptime', value: '99.9%' }, { label: 'Session Duration', value: '+40%' }], demo: '' },
+    { icon: Shield, number: '04', title: 'FRAP Medical Platform', category: 'Enterprise Platform', image: '/projects/frap.png', problem: 'Emergency medical staff had no unified digital system — patient records were paper-based.', solution: 'Full-stack prehospital care platform with triage, vital signs, clinical records & digital PDF reports.', impact: 'Organization went fully paperless — records available in real time across all response units.', color: '#10b981', metrics: [{ label: 'Paperless Rate', value: '100%' }, { label: 'Report Time', value: '−95%' }], demo: 'frap' },
     { icon: Building2, number: '05', title: 'Business Digitalization', category: 'Digital Transformation', image: '/projects/transformation.png', problem: 'Entire operation ran on paper forms and WhatsApp messages.', solution: 'Unified digital system replacing all manual workflows.', impact: 'Reduced operational time by 60%, eliminated data duplicates.', color: '#ec4899', metrics: [{ label: 'Time Saved', value: '60%' }, { label: 'Error Rate', value: '−90%' }], demo: 'transformation' },
-    { icon: Shield, number: '06', title: 'FRAP Medical Platform', category: 'Enterprise Platform', image: '/projects/frap.png', problem: 'Emergency medical staff had no unified digital system — patient records were paper-based.', solution: 'Full-stack prehospital care platform with triage, vital signs, clinical records & digital PDF reports.', impact: 'Organization went fully paperless — records available in real time across all response units.', color: '#10b981', metrics: [{ label: 'Paperless Rate', value: '100%' }, { label: 'Report Time', value: '−95%' }], demo: 'frap' },
+    { icon: Tv, number: '06', title: 'Secure Streaming Platform', category: 'Web Platform', image: '/projects/streaming.png', problem: 'Existing setup had compatibility issues, poor UX, and constant drop-offs.', solution: 'Custom-built secure streaming platform with adaptive quality.', impact: 'Zero compatibility complaints, 40% higher session duration.', color: '#8b5cf6', metrics: [{ label: 'Uptime', value: '99.9%' }, { label: 'Session Duration', value: '+40%' }], demo: '' },
+
+    /* 24 More Projects without Demos */
     { icon: Brain, number: '07', title: 'NLP Sentiment Analyzer', category: 'AI & Automation', image: '', problem: 'Brand had no way to monitor customer sentiment across social channels.', solution: 'Python NLP pipeline that scrapes, classifies, and scores sentiment in real time.', impact: 'Marketing team identified and resolved 3 PR crises before they escalated.', color: '#6366f1', metrics: [{ label: 'Channels Covered', value: '5+' }, { label: 'Accuracy', value: '91%' }], demo: '' },
     { icon: Globe, number: '08', title: 'Multi-Language Web App', category: 'Custom Web Platform', image: '', problem: 'Company served 4 countries but only had content in one language.', solution: 'React web app with i18n system and auto locale detection.', impact: 'Expanded market reach with 40% more organic engagement.', color: '#0ea5e9', metrics: [{ label: 'Languages', value: '4' }, { label: 'Engagement', value: '+40%' }], demo: '' },
     { icon: Database, number: '09', title: 'ETL Data Pipeline', category: 'Data & Analytics', image: '', problem: 'Data lived in 7 different formats across 12 departments.', solution: 'Automated ETL pipeline unifying all sources into a central data warehouse.', impact: 'Saved 40 man-hours per week in manual data wrangling.', color: '#f59e0b', metrics: [{ label: 'Hours Saved/wk', value: '40h' }, { label: 'Data Sources', value: '12' }], demo: '' },
@@ -54,184 +56,152 @@ function useInView(threshold = 0.1) {
     return { ref, inView }
 }
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-    const { ref, inView } = useInView(0.05)
-    const [hovered, setHovered] = useState(false)
-    const Icon = project.icon
-    const hasImage = !!project.image
+function FeaturedBentoGrid() {
+    const topProjects = projects.slice(0, 6)
+
+    // Custom spans for masonry bento layout
+    const gridSpans = [
+        'col-span-12 md:col-span-8',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-4',
+        'col-span-12 md:col-span-8',
+    ]
 
     return (
-        <div
-            ref={ref}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            style={{
-                background: 'rgba(15,23,42,0.5)',
-                border: `1px solid ${hovered ? project.color + '30' : 'rgba(255,255,255,0.06)'}`,
-                borderRadius: 20, overflow: 'hidden',
-                transition: 'all 0.4s ease',
-                opacity: inView ? 1 : 0,
-                transform: inView ? 'translateY(0)' : 'translateY(40px)',
-                transitionDelay: `${Math.min(index * 0.05, 0.4)}s`,
-                boxShadow: hovered ? `0 20px 60px ${project.color}15` : 'none',
-            }}
-            className="project-card"
-        >
-            {/* Project image — featured only */}
-            {hasImage && (
-                <div style={{ position: 'relative', overflow: 'hidden', height: 200 }}>
-                    <img
-                        src={project.image}
-                        alt={project.title}
-                        loading="lazy"
-                        style={{
-                            width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                            transition: 'transform 0.6s ease',
-                            transform: hovered ? 'scale(1.05)' : 'scale(1)',
-                        }}
-                    />
-                    {/* Gradient overlay */}
-                    <div style={{
-                        position: 'absolute', inset: 0,
-                        background: 'linear-gradient(180deg, rgba(10,15,30,0.1) 0%, rgba(10,15,30,0.5) 55%, rgba(10,15,30,0.97) 100%)',
-                    }} />
-                    {/* Badges on image */}
-                    <div style={{ position: 'absolute', top: 14, left: 14 }}>
-                        <span style={{
-                            padding: '4px 12px', borderRadius: 100,
-                            background: project.color + '20',
-                            border: `1px solid ${project.color}45`,
-                            backdropFilter: 'blur(12px)',
-                            fontSize: '0.7rem', color: project.color, fontWeight: 700,
-                        }}>{project.category}</span>
-                    </div>
-                    <span style={{
-                        position: 'absolute', top: 16, right: 16,
-                        fontSize: '0.62rem', color: 'rgba(255,255,255,0.25)', fontWeight: 700, letterSpacing: '0.1em',
-                    }}>
-                        PROJECT {project.number}
-                    </span>
-                    {/* Title on image bottom */}
-                    <h3 style={{
-                        position: 'absolute', bottom: 14, left: 20, right: 20,
-                        fontSize: '1.05rem', fontWeight: 800, color: '#f1f5f9',
-                        letterSpacing: '-0.02em', margin: 0,
-                    }}>
-                        {project.title}
-                    </h3>
-                </div>
-            )}
+        <div className="grid grid-cols-12 gap-6 mb-16">
+            {topProjects.map((p, i) => {
+                const span = gridSpans[i]
+                const [hovered, setHovered] = useState(false)
+                const { ref, inView } = useInView(0.1)
 
-            {/* Content row */}
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: hasImage ? '1fr 1fr' : '1fr 1fr',
-                gap: 0,
-            }} className="project-inner">
-                {/* Left */}
-                <div style={{ padding: hasImage ? '20px 24px' : '32px 28px' }}>
-                    {!hasImage && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-                            <div style={{
-                                width: 36, height: 36, borderRadius: 10,
-                                background: `${project.color}15`, border: `1px solid ${project.color}30`,
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            }}>
-                                <Icon size={18} style={{ color: project.color }} strokeWidth={1.8} />
-                            </div>
-                            <span style={{
-                                padding: '3px 10px', background: `${project.color}10`,
-                                border: `1px solid ${project.color}20`, borderRadius: 100,
-                                fontSize: '0.72rem', color: project.color, fontWeight: 600,
-                            }}>
-                                {project.category}
+                return (
+                    <div
+                        key={p.number}
+                        ref={ref}
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}
+                        className={`${span} group relative overflow-hidden rounded-3xl bg-slate-900/50 border border-white/5 cursor-pointer`}
+                        style={{
+                            minHeight: i === 0 || i === 5 ? '460px' : '400px',
+                            opacity: inView ? 1 : 0,
+                            transform: inView ? 'translateY(0)' : 'translateY(40px)',
+                            transition: `all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`,
+                        }}
+                    >
+                        {/* Background Image */}
+                        <img
+                            src={p.image}
+                            alt={p.title}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out"
+                            style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)' }}
+                        />
+
+                        {/* Dark Gradient Overlay */}
+                        <div
+                            className="absolute inset-0 transition-opacity duration-500"
+                            style={{
+                                background: hovered
+                                    ? `linear-gradient(180deg, rgba(5,13,26,0.2) 0%, rgba(5,13,26,0.85) 60%, rgba(5,13,26,0.98) 100%)`
+                                    : `linear-gradient(180deg, rgba(5,13,26,0) 0%, rgba(5,13,26,0.4) 50%, rgba(5,13,26,0.85) 100%)`
+                            }}
+                        />
+
+                        {/* Top Badge */}
+                        <div className="absolute top-6 left-6 flex gap-3 z-10">
+                            <span
+                                className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-md"
+                                style={{ background: 'rgba(5, 13, 26, 0.6)', color: p.color, border: '1px solid rgba(255,255,255,0.1)' }}
+                            >
+                                {p.category}
                             </span>
                         </div>
-                    )}
-                    {!hasImage && (
-                        <div style={{ fontSize: '0.65rem', color: '#475569', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 6 }}>
-                            PROJECT {project.number}
-                        </div>
-                    )}
-                    {!hasImage && (
-                        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.02em', marginBottom: 16 }}>
-                            {project.title}
-                        </h3>
-                    )}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        <div>
-                            <span style={{ fontSize: '0.65rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Problem</span>
-                            <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.problem}</p>
-                        </div>
-                        <div>
-                            <span style={{ fontSize: '0.65rem', color: '#3b82f6', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Solution</span>
-                            <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.solution}</p>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Right */}
-                <div style={{
-                    padding: hasImage ? '20px 24px' : '32px 28px',
-                    background: `${project.color}06`,
-                    borderLeft: `1px solid ${project.color}15`,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                }}>
-                    <div>
-                        <span style={{ fontSize: '0.65rem', color: project.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: 8 }}>
-                            ✦ Impact
-                        </span>
-                        <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.7, marginBottom: 20 }}>
-                            {project.impact}
-                        </p>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 16 }}>
-                        {project.metrics.map(m => (
-                            <div key={m.label} style={{
-                                background: 'rgba(15,23,42,0.5)', border: `1px solid ${project.color}20`,
-                                borderRadius: 10, padding: '10px 12px', textAlign: 'center',
-                            }}>
-                                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: project.color }}>{m.value}</div>
-                                <div style={{ fontSize: '0.65rem', color: '#475569', marginTop: 2 }}>{m.label}</div>
+                        {/* Bottom Content Area */}
+                        <div
+                            className="absolute bottom-0 left-0 right-0 p-8 z-10 flex flex-col justify-end transition-all duration-500 ease-out"
+                            style={{
+                                transform: hovered ? 'translateY(0)' : 'translateY(15px)',
+                            }}
+                        >
+                            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3 tracking-tight">
+                                {p.title}
+                            </h3>
+
+                            <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed max-w-[90%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                {p.solution}
+                            </p>
+
+                            <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
+                                <div className="flex gap-4">
+                                    {p.metrics.map(m => (
+                                        <div key={m.label} className="flex flex-col">
+                                            <span className="text-lg font-bold" style={{ color: p.color }}>{m.value}</span>
+                                            <span className="text-[0.65rem] uppercase tracking-wider text-slate-400 font-semibold">{m.label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {p.demo && (
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); scrollToDemo(p.demo); }}
+                                        className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all border border-white/10"
+                                        style={{ color: p.color }}
+                                    >
+                                        <ArrowUpRight size={20} strokeWidth={2.5} />
+                                    </button>
+                                )}
                             </div>
-                        ))}
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        {project.demo && (
-                            <button
-                                onClick={() => scrollToDemo(project.demo)}
-                                style={{
-                                    flex: 1, padding: '10px 0',
-                                    background: `linear-gradient(135deg, ${project.color}, ${project.color}cc)`,
-                                    border: 'none', borderRadius: 10, cursor: 'pointer',
-                                    color: '#fff', fontSize: '0.78rem', fontWeight: 700,
-                                    letterSpacing: '0.02em', transition: 'all 0.25s ease',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                                }}
-                                onMouseEnter={e => {
-                                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-                                        ; (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${project.color}40`
-                                }}
-                                onMouseLeave={e => {
-                                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                                        ; (e.currentTarget as HTMLElement).style.boxShadow = 'none'
-                                }}
-                            >
-                                ⚡ View Demo ↓
-                            </button>
-                        )}
-                        <div style={{
-                            display: 'flex', alignItems: 'center', gap: 4,
-                            color: project.color, fontSize: '0.75rem', fontWeight: 600,
-                            opacity: hovered ? 1 : 0.4, transition: 'opacity 0.3s',
-                            cursor: 'default',
-                        }}>
-                            <ArrowUpRight size={14} />
                         </div>
                     </div>
-                </div>
-            </div>
+                )
+            })}
+        </div>
+    )
+}
+
+function StandardProjectList({ projectsList }: { projectsList: typeof projects }) {
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projectsList.map((p, i) => {
+                const { ref, inView } = useInView(0.05)
+                const Icon = p.icon
+                return (
+                    <div
+                        key={p.number}
+                        ref={ref}
+                        className="group bg-slate-900/40 border border-slate-800 hover:border-slate-700 rounded-3xl p-8 transition-all duration-300"
+                        style={{
+                            opacity: inView ? 1 : 0,
+                            transform: inView ? 'translateY(0)' : 'translateY(30px)',
+                            transitionDelay: `${(i % 3) * 0.1}s`,
+                        }}
+                    >
+                        <div className="flex items-center justify-between mb-6">
+                            <div
+                                className="w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-300"
+                                style={{ background: `${p.color}15`, color: p.color }}
+                            >
+                                <Icon size={22} strokeWidth={2} />
+                            </div>
+                            <span className="text-slate-500 text-sm font-semibold tracking-widest">{p.number}</span>
+                        </div>
+                        <h4 className="text-lg font-bold text-white mb-3 tracking-tight">{p.title}</h4>
+                        <div className="text-xs font-bold uppercase tracking-wider mb-4" style={{ color: p.color }}>{p.category}</div>
+                        <p className="text-sm text-slate-400 leading-relaxed mb-6 h-[80px] overflow-hidden">
+                            {p.problem}
+                        </p>
+                        <div className="pt-5 border-t border-slate-800/60 flex justify-between items-end">
+                            <div>
+                                <span className="block text-[0.65rem] uppercase tracking-wider text-slate-500 mb-1">Impact</span>
+                                <span className="text-base font-bold text-slate-200">{p.metrics[0].value} {p.metrics[0].label}</span>
+                            </div>
+                            <ArrowUpRight size={18} className="text-slate-600 group-hover:text-slate-300 transition-colors" />
+                        </div>
+                    </div>
+                )
+            })}
         </div>
     )
 }
@@ -239,80 +209,73 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 export default function Projects() {
     const { ref: titleRef, inView: titleVisible } = useInView(0.2)
     const [showAll, setShowAll] = useState(false)
-    const visibleProjects = showAll ? projects : projects.slice(0, 6)
+    const regularProjects = projects.slice(6)
 
     return (
-        <section id="projects" style={{
-            padding: '120px 24px',
-            background: 'linear-gradient(180deg, transparent 0%, rgba(34,197,94,0.02) 50%, transparent 100%)',
-        }}>
-            <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <section id="projects" className="py-32 relative bg-[#020617] overflow-hidden">
+            {/* Dynamic Background Glows */}
+            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+
+            <div className="max-w-[1400px] mx-auto px-6 relative z-10">
                 <div
                     ref={titleRef}
+                    className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
                     style={{
-                        textAlign: 'center', marginBottom: 64,
                         opacity: titleVisible ? 1 : 0,
                         transform: titleVisible ? 'translateY(0)' : 'translateY(30px)',
-                        transition: 'all 0.7s ease',
+                        transition: 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                 >
-                    <span style={{
-                        display: 'inline-block', padding: '5px 14px',
-                        background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)',
-                        borderRadius: 100, color: '#22c55e',
-                        fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16,
-                    }}>
-                        Case Studies
-                    </span>
-                    <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.03em', marginBottom: 16 }}>
-                        Real projects. <span className="gradient-text">Measurable results.</span>
-                    </h2>
-                    <p style={{ fontSize: '1.05rem', color: '#64748b', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-                        30+ delivered projects. Projects marked{' '}
-                        <span style={{ color: '#22c55e', fontWeight: 600 }}>⚡ View Demo</span>{' '}
-                        have interactive simulations you can try below.
+                    <div className="max-w-2xl">
+                        <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold tracking-[0.15em] uppercase mb-6">
+                            Case Studies
+                        </span>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[1.1]">
+                            Turning Ideas Into <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">
+                                Masterpieces.
+                            </span>
+                        </h2>
+                    </div>
+                    <p className="text-slate-400 max-w-sm text-base md:text-lg leading-relaxed font-medium">
+                        We deliver innovative strategies that elevate your brand and drive growth. See how our bespoke systems create measurable impact.
                     </p>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                    {visibleProjects.map((project, index) => (
-                        <ProjectCard key={project.number} project={project} index={index} />
-                    ))}
-                </div>
+                {/* Featured CSS Grid / Masonry Layout */}
+                <FeaturedBentoGrid />
 
-                {!showAll && (
-                    <div style={{ textAlign: 'center', marginTop: 40 }}>
+                {/* Show All / Toggle */}
+                <div className="text-center mt-8">
+                    {!showAll ? (
                         <button
                             onClick={() => setShowAll(true)}
-                            style={{
-                                padding: '14px 36px',
-                                background: 'rgba(15,23,42,0.7)',
-                                border: '1px solid rgba(34,197,94,0.25)',
-                                borderRadius: 12, cursor: 'pointer',
-                                color: '#22c55e', fontSize: '0.9rem', fontWeight: 600,
-                                transition: 'all 0.3s ease',
-                            }}
-                            onMouseEnter={e => {
-                                (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.1)'
-                                    ; (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-                            }}
-                            onMouseLeave={e => {
-                                (e.currentTarget as HTMLElement).style.background = 'rgba(15,23,42,0.7)'
-                                    ; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-                            }}
+                            className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-bold tracking-wide transition-all hover:scale-105"
                         >
-                            View All 30 Projects ↓
+                            Explore 24 More Projects <ArrowUpRight size={18} />
                         </button>
-                    </div>
-                )}
-            </div>
+                    ) : (
+                        <>
+                            <div className="mb-12 mt-20 flex items-center justify-between">
+                                <h3 className="text-2xl font-bold text-white tracking-tight">System Archive</h3>
+                                <div className="h-px bg-slate-800 flex-1 mx-6" />
+                                <span className="text-slate-500 font-bold">{regularProjects.length} Projects</span>
+                            </div>
+                            <StandardProjectList projectsList={regularProjects} />
 
-            <style>{`
-        @media (max-width: 768px) {
-          .project-card .project-inner { grid-template-columns: 1fr !important; }
-          .project-card { }
-        }
-      `}</style>
+                            <div className="mt-16">
+                                <button
+                                    onClick={() => setShowAll(false)}
+                                    className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-bold tracking-wide transition-all"
+                                >
+                                    Show Less
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
         </section>
     )
 }
