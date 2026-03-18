@@ -122,7 +122,7 @@ export default function Contact() {
                                     Email Us
                                 </h3>
                                 <p style={{ fontSize: '0.875rem', color: '#94a3b8' }}>
-                                    contact@aadigitalservices.com
+                                    alonsohazed@gmail.com
                                 </p>
                             </div>
 
@@ -152,7 +152,7 @@ export default function Contact() {
 
                         {/* WhatsApp button */}
                         <a
-                            href="https://wa.me/1234567890?text=Hi!%20I'd%20like%20to%20discuss%20a%20project%20with%20AA%20Digital%20Services."
+                            href="https://wa.me/526562566838?text=Hola!%20Me%20gustar%C3%ADa%20platicar%20sobre%20un%20proyecto%20con%20AA%20Digital%20Services."
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
