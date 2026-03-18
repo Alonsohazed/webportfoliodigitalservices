@@ -1,4 +1,4 @@
-import { Zap, Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react'
+import { Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react'
 
 const footerLinks = {
     Services: [
@@ -36,19 +36,24 @@ export default function Footer() {
                     className="footer-grid">
                     {/* Brand */}
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                            <div style={{
-                                width: 36, height: 36,
-                                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                                borderRadius: 8,
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                boxShadow: '0 0 20px rgba(34,197,94,0.3)',
-                            }}>
-                                <Zap size={18} color="#fff" strokeWidth={2.5} />
-                            </div>
-                            <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#f1f5f9', letterSpacing: '-0.02em' }}>
-                                AA <span style={{ color: '#22c55e' }}>Digital</span> Services
-                            </span>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 0, marginBottom: 16 }}>
+                            <span style={{
+                                fontWeight: 900,
+                                fontSize: '1.6rem',
+                                letterSpacing: '-0.05em',
+                                background: 'linear-gradient(135deg, #22c55e 0%, #4ade80 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text',
+                                lineHeight: 1,
+                            }}>AA</span>
+                            <span style={{
+                                fontWeight: 500,
+                                fontSize: '1rem',
+                                color: '#64748b',
+                                letterSpacing: '-0.01em',
+                                marginLeft: 8,
+                            }}>Digital Services</span>
                         </div>
 
                         <p style={{

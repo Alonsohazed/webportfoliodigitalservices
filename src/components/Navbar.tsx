@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Menu, X, Zap } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
     { label: 'Services', href: '#services' },
@@ -43,24 +43,29 @@ export default function Navbar() {
         >
             <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
-                    {/* Logo */}
+                    {/* Logo wordmark */}
                     <a
                         href="#"
-                        style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+                        style={{ display: 'flex', alignItems: 'baseline', gap: 0, textDecoration: 'none' }}
                         onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                     >
-                        <div style={{
-                            width: 36, height: 36,
-                            background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                            borderRadius: 8,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: '0 0 20px rgba(34,197,94,0.3)',
-                        }}>
-                            <Zap size={18} color="#fff" strokeWidth={2.5} />
-                        </div>
-                        <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#f1f5f9', letterSpacing: '-0.02em' }}>
-                            AA <span style={{ color: '#22c55e' }}>Digital</span>
-                        </span>
+                        <span style={{
+                            fontWeight: 900,
+                            fontSize: '1.6rem',
+                            letterSpacing: '-0.05em',
+                            background: 'linear-gradient(135deg, #22c55e 0%, #4ade80 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            lineHeight: 1,
+                        }}>AA</span>
+                        <span style={{
+                            fontWeight: 500,
+                            fontSize: '1rem',
+                            color: '#94a3b8',
+                            letterSpacing: '-0.01em',
+                            marginLeft: 8,
+                        }}>Digital Services</span>
                     </a>
 
                     {/* Desktop nav */}
