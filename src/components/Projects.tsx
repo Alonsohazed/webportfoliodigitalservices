@@ -4,29 +4,17 @@ import {
     ArrowUpRight, Shield, Brain, Globe, Database, Cpu,
     BarChart2, Zap, FileText, Users, ShoppingCart, Map,
     Clock, Phone, BookOpen, Truck, HeartPulse, Lock,
-    Wifi, PieChart, Layers, Server, Cog, X,
+    Wifi, PieChart, Layers, Server, Cog,
 } from 'lucide-react'
-import DemoInventory from './demos/DemoInventory'
-import DemoChatbot from './demos/DemoChatbot'
-import DemoDashboard from './demos/DemoDashboard'
-import DemoStreaming from './demos/DemoStreaming'
-import DemoTransformation from './demos/DemoTransformation'
-
-const demoMap: Record<string, React.ComponentType> = {
-    DemoInventory,
-    DemoChatbot,
-    DemoDashboard,
-    DemoStreaming,
-    DemoTransformation,
-}
+import { scrollToDemo } from './DemoShowcase'
 
 const projects = [
-    { icon: Package, number: '01', title: 'Smart Inventory System', category: 'Web Platform', problem: 'Manual tracking across spreadsheets caused errors, delays, and zero visibility into stock levels.', solution: 'Custom digital inventory platform with real-time tracking, alerts, and reporting.', impact: 'Reduced errors by 80% and cut stock reconciliation time in half.', color: '#22c55e', metrics: [{ label: 'Error Reduction', value: '80%' }, { label: 'Time Saved', value: '50%' }], demo: 'DemoInventory' },
-    { icon: MessageSquare, number: '02', title: 'AI Chatbot Lead Funnel', category: 'AI & Automation', problem: 'Website traffic was generating zero qualified leads.', solution: 'Decision-based AI chatbot that qualifies leads, collects details, and routes them automatically.', impact: 'Boosted lead capture rate 3x and automated follow-ups.', color: '#3b82f6', metrics: [{ label: 'Lead Conversion', value: '+3x' }, { label: 'Response Time', value: '0s' }], demo: 'DemoChatbot' },
-    { icon: TrendingUp, number: '03', title: 'Business Intelligence Suite', category: 'Data & Analytics', problem: 'Hundreds of thousands of raw data rows with no meaningful insights.', solution: 'End-to-end data pipeline with Power BI dashboards and KPI tracking.', impact: 'Strategy meetings cut from 3 hours to 30 minutes.', color: '#f59e0b', metrics: [{ label: 'Reporting Speed', value: '10x' }, { label: 'Decision Accuracy', value: '+65%' }], demo: 'DemoDashboard' },
-    { icon: Tv, number: '04', title: 'Secure Streaming Platform', category: 'Web Platform', problem: 'Existing setup had compatibility issues, poor UX, and constant drop-offs.', solution: 'Custom-built secure streaming platform with adaptive quality.', impact: 'Zero compatibility complaints, 40% higher session duration.', color: '#8b5cf6', metrics: [{ label: 'Uptime', value: '99.9%' }, { label: 'Session Duration', value: '+40%' }], demo: 'DemoStreaming' },
-    { icon: Building2, number: '05', title: 'Business Digitalization', category: 'Digital Transformation', problem: 'Entire operation ran on paper forms and WhatsApp messages.', solution: 'Unified digital system replacing all manual workflows.', impact: 'Reduced operational time by 60%, eliminated data duplicates.', color: '#ec4899', metrics: [{ label: 'Time Saved', value: '60%' }, { label: 'Error Rate', value: '−90%' }], demo: 'DemoTransformation' },
-    { icon: Shield, number: '06', title: 'FRAP Medical Platform', category: 'Web Platform', problem: 'Medical staff used paper records and lacked a unified digital system for patient data.', solution: 'Full-stack medical platform (FRAP) with patient records, drug tracking, and PDF report generation.', impact: 'Allowed clinics to go fully paperless with real-time patient management.', color: '#10b981', metrics: [{ label: 'Paperless Rate', value: '100%' }, { label: 'Data Speed', value: '20x' }], demo: '' },
+    { icon: Package, number: '01', title: 'Smart Inventory System', category: 'Web Platform', problem: 'Manual tracking across spreadsheets caused errors, delays, and zero visibility into stock levels.', solution: 'Custom digital inventory platform with real-time tracking, alerts, and reporting.', impact: 'Reduced errors by 80% and cut stock reconciliation time in half.', color: '#22c55e', metrics: [{ label: 'Error Reduction', value: '80%' }, { label: 'Time Saved', value: '50%' }], demo: 'inventory' },
+    { icon: MessageSquare, number: '02', title: 'AI Chatbot Lead Funnel', category: 'AI & Automation', problem: 'Website traffic was generating zero qualified leads.', solution: 'Decision-based AI chatbot that qualifies leads, collects details, and routes them automatically.', impact: 'Boosted lead capture rate 3x and automated follow-ups.', color: '#3b82f6', metrics: [{ label: 'Lead Conversion', value: '+3x' }, { label: 'Response Time', value: '0s' }], demo: 'chatbot' },
+    { icon: TrendingUp, number: '03', title: 'Business Intelligence Suite', category: 'Data & Analytics', problem: 'Hundreds of thousands of raw data rows with no meaningful insights.', solution: 'End-to-end data pipeline with Power BI dashboards and KPI tracking.', impact: 'Strategy meetings cut from 3 hours to 30 minutes.', color: '#f59e0b', metrics: [{ label: 'Reporting Speed', value: '10x' }, { label: 'Decision Accuracy', value: '+65%' }], demo: 'dashboard' },
+    { icon: Tv, number: '04', title: 'Secure Streaming Platform', category: 'Web Platform', problem: 'Existing setup had compatibility issues, poor UX, and constant drop-offs.', solution: 'Custom-built secure streaming platform with adaptive quality.', impact: 'Zero compatibility complaints, 40% higher session duration.', color: '#8b5cf6', metrics: [{ label: 'Uptime', value: '99.9%' }, { label: 'Session Duration', value: '+40%' }], demo: '' },
+    { icon: Building2, number: '05', title: 'Business Digitalization', category: 'Digital Transformation', problem: 'Entire operation ran on paper forms and WhatsApp messages.', solution: 'Unified digital system replacing all manual workflows.', impact: 'Reduced operational time by 60%, eliminated data duplicates.', color: '#ec4899', metrics: [{ label: 'Time Saved', value: '60%' }, { label: 'Error Rate', value: '−90%' }], demo: 'transformation' },
+    { icon: Shield, number: '06', title: 'FRAP Medical Platform', category: 'Enterprise Platform', problem: 'Emergency medical staff had no unified digital system — patient records were paper-based and reports took hours.', solution: 'Full-stack prehospital care platform with patient triage, vital signs, clinical records, and digital PDF reports.', impact: 'Organization went fully paperless — patient records available in real time across all response units.', color: '#10b981', metrics: [{ label: 'Paperless Rate', value: '100%' }, { label: 'Report Time', value: '−95%' }], demo: 'frap' },
     { icon: Brain, number: '07', title: 'NLP Sentiment Analyzer', category: 'AI & Automation', problem: 'Brand had no way to monitor customer sentiment across social channels.', solution: 'Python NLP pipeline that scrapes, classifies, and scores sentiment in real time.', impact: 'Marketing team identified and resolved 3 PR crises before they escalated.', color: '#6366f1', metrics: [{ label: 'Channels Covered', value: '5+' }, { label: 'Accuracy', value: '91%' }], demo: '' },
     { icon: Globe, number: '08', title: 'Multi-Language Web App', category: 'Custom Web Platform', problem: 'Company served 4 countries but only had content in one language.', solution: 'React web app with i18n system and auto locale detection.', impact: 'Expanded market reach with 40% more organic engagement.', color: '#0ea5e9', metrics: [{ label: 'Languages', value: '4' }, { label: 'Engagement', value: '+40%' }], demo: '' },
     { icon: Database, number: '09', title: 'ETL Data Pipeline', category: 'Data & Analytics', problem: 'Data lived in 7 different formats across 12 departments.', solution: 'Automated ETL pipeline unifying all sources into a central data warehouse.', impact: 'Saved 40 man-hours per week in manual data wrangling.', color: '#f59e0b', metrics: [{ label: 'Hours Saved/wk', value: '40h' }, { label: 'Data Sources', value: '12' }], demo: '' },
@@ -66,207 +54,126 @@ function useInView(threshold = 0.1) {
     return { ref, inView }
 }
 
-function DemoModal({ demoKey, title, onClose }: { demoKey: string; title: string; onClose: () => void }) {
-    const DemoComponent = demoMap[demoKey]
-    useEffect(() => {
-        const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-        document.addEventListener('keydown', handleKey)
-        document.body.style.overflow = 'hidden'
-        return () => {
-            document.removeEventListener('keydown', handleKey)
-            document.body.style.overflow = ''
-        }
-    }, [onClose])
-
-    return (
-        <div
-            onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
-            style={{
-                position: 'fixed', inset: 0, zIndex: 9999,
-                background: 'rgba(2,8,23,0.88)',
-                backdropFilter: 'blur(12px)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                padding: 24,
-                animation: 'fadeIn 0.25s ease',
-            }}
-        >
-            <div style={{
-                width: '100%', maxWidth: 860,
-                background: '#0a0f1e',
-                border: '1px solid rgba(34,197,94,0.2)',
-                borderRadius: 24,
-                overflow: 'hidden',
-                maxHeight: '90vh',
-                display: 'flex', flexDirection: 'column',
-                boxShadow: '0 40px 100px rgba(0,0,0,0.7)',
-                animation: 'slideUp 0.3s ease',
-            }}>
-                {/* Modal header */}
-                <div style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '18px 28px',
-                    borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    background: 'rgba(15,23,42,0.6)',
-                    flexShrink: 0,
-                }}>
-                    <div>
-                        <span style={{
-                            fontSize: '0.7rem', color: '#22c55e', fontWeight: 700,
-                            letterSpacing: '0.1em', textTransform: 'uppercase',
-                        }}>
-                            ⚡ Interactive Demo
-                        </span>
-                        <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#f1f5f9', marginTop: 2 }}>
-                            {title}
-                        </h3>
-                    </div>
-                    <button
-                        onClick={onClose}
-                        style={{
-                            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: 8, padding: 8, cursor: 'pointer', color: '#94a3b8',
-                            display: 'flex', alignItems: 'center', transition: 'all 0.2s',
-                        }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,59,59,0.15)'; (e.currentTarget as HTMLElement).style.color = '#f87171' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; (e.currentTarget as HTMLElement).style.color = '#94a3b8' }}
-                        aria-label="Close demo"
-                    >
-                        <X size={18} />
-                    </button>
-                </div>
-                {/* Modal body */}
-                <div style={{ overflowY: 'auto', flex: 1, padding: '24px 28px' }}>
-                    {DemoComponent ? <DemoComponent /> : <p style={{ color: '#64748b' }}>Demo not found.</p>}
-                </div>
-            </div>
-            <style>{`
-        @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
-        @keyframes slideUp { from { transform:translateY(24px); opacity:0 } to { transform:translateY(0); opacity:1 } }
-      `}</style>
-        </div>
-    )
-}
-
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
     const { ref, inView } = useInView(0.05)
     const [hovered, setHovered] = useState(false)
-    const [demoOpen, setDemoOpen] = useState(false)
     const Icon = project.icon
 
     return (
-        <>
-            {demoOpen && project.demo && (
-                <DemoModal demoKey={project.demo} title={project.title} onClose={() => setDemoOpen(false)} />
-            )}
-            <div
-                ref={ref}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                style={{
-                    display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
-                    background: 'rgba(15,23,42,0.5)',
-                    border: `1px solid ${hovered ? project.color + '30' : 'rgba(255,255,255,0.06)'}`,
-                    borderRadius: 20, overflow: 'hidden',
-                    transition: 'all 0.4s ease',
-                    opacity: inView ? 1 : 0,
-                    transform: inView ? 'translateY(0)' : 'translateY(40px)',
-                    transitionDelay: `${Math.min(index * 0.05, 0.4)}s`,
-                    boxShadow: hovered ? `0 20px 60px ${project.color}15` : 'none',
-                }}
-                className="project-card"
-            >
-                {/* Left */}
-                <div style={{ padding: '32px 28px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-                        <div style={{
-                            width: 36, height: 36, borderRadius: 10,
-                            background: `${project.color}15`, border: `1px solid ${project.color}30`,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        }}>
-                            <Icon size={18} style={{ color: project.color }} strokeWidth={1.8} />
-                        </div>
-                        <span style={{
-                            padding: '3px 10px', background: `${project.color}10`,
-                            border: `1px solid ${project.color}20`, borderRadius: 100,
-                            fontSize: '0.72rem', color: project.color, fontWeight: 600,
-                        }}>
-                            {project.category}
-                        </span>
+        <div
+            ref={ref}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
+                background: 'rgba(15,23,42,0.5)',
+                border: `1px solid ${hovered ? project.color + '30' : 'rgba(255,255,255,0.06)'}`,
+                borderRadius: 20, overflow: 'hidden',
+                transition: 'all 0.4s ease',
+                opacity: inView ? 1 : 0,
+                transform: inView ? 'translateY(0)' : 'translateY(40px)',
+                transitionDelay: `${Math.min(index * 0.05, 0.4)}s`,
+                boxShadow: hovered ? `0 20px 60px ${project.color}15` : 'none',
+            }}
+            className="project-card"
+        >
+            {/* Left */}
+            <div style={{ padding: '32px 28px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                    <div style={{
+                        width: 36, height: 36, borderRadius: 10,
+                        background: `${project.color}15`, border: `1px solid ${project.color}30`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <Icon size={18} style={{ color: project.color }} strokeWidth={1.8} />
                     </div>
-                    <div style={{ fontSize: '0.65rem', color: '#475569', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 6 }}>
-                        PROJECT {project.number}
-                    </div>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.02em', marginBottom: 16 }}>
-                        {project.title}
-                    </h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                        <div>
-                            <span style={{ fontSize: '0.65rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Problem</span>
-                            <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.problem}</p>
-                        </div>
-                        <div>
-                            <span style={{ fontSize: '0.65rem', color: '#3b82f6', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Solution</span>
-                            <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.solution}</p>
-                        </div>
-                    </div>
+                    <span style={{
+                        padding: '3px 10px', background: `${project.color}10`,
+                        border: `1px solid ${project.color}20`, borderRadius: 100,
+                        fontSize: '0.72rem', color: project.color, fontWeight: 600,
+                    }}>
+                        {project.category}
+                    </span>
                 </div>
-
-                {/* Right */}
-                <div style={{
-                    padding: '32px 28px', background: `${project.color}06`,
-                    borderLeft: `1px solid ${project.color}15`,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                }}>
+                <div style={{ fontSize: '0.65rem', color: '#475569', fontWeight: 700, letterSpacing: '0.1em', marginBottom: 6 }}>
+                    PROJECT {project.number}
+                </div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.02em', marginBottom: 16 }}>
+                    {project.title}
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     <div>
-                        <span style={{ fontSize: '0.65rem', color: project.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: 8 }}>
-                            ✦ Impact
-                        </span>
-                        <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.7, marginBottom: 20 }}>
-                            {project.impact}
-                        </p>
+                        <span style={{ fontSize: '0.65rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Problem</span>
+                        <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.problem}</p>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 16 }}>
-                        {project.metrics.map(m => (
-                            <div key={m.label} style={{
-                                background: 'rgba(15,23,42,0.5)', border: `1px solid ${project.color}20`,
-                                borderRadius: 10, padding: '10px 12px', textAlign: 'center',
-                            }}>
-                                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: project.color }}>{m.value}</div>
-                                <div style={{ fontSize: '0.65rem', color: '#475569', marginTop: 2 }}>{m.label}</div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 8 }}>
-                        {project.demo && (
-                            <button
-                                onClick={() => setDemoOpen(true)}
-                                style={{
-                                    flex: 1, padding: '10px 0',
-                                    background: `linear-gradient(135deg, ${project.color}, ${project.color}cc)`,
-                                    border: 'none', borderRadius: 10, cursor: 'pointer',
-                                    color: '#fff', fontSize: '0.78rem', fontWeight: 700,
-                                    letterSpacing: '0.02em', transition: 'all 0.25s ease',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                                }}
-                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${project.color}40` }}
-                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
-                            >
-                                ⚡ Try Demo
-                            </button>
-                        )}
-                        <div style={{
-                            display: 'flex', alignItems: 'center', gap: 4,
-                            color: project.color, fontSize: '0.75rem', fontWeight: 600,
-                            opacity: hovered ? 1 : 0.4, transition: 'opacity 0.3s',
-                            cursor: 'pointer', padding: '8px 0',
-                        }}>
-                            <ArrowUpRight size={14} /> Details
-                        </div>
+                    <div>
+                        <span style={{ fontSize: '0.65rem', color: '#3b82f6', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Solution</span>
+                        <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.6, marginTop: 3 }}>{project.solution}</p>
                     </div>
                 </div>
             </div>
-        </>
+
+            {/* Right */}
+            <div style={{
+                padding: '32px 28px', background: `${project.color}06`,
+                borderLeft: `1px solid ${project.color}15`,
+                display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            }}>
+                <div>
+                    <span style={{ fontSize: '0.65rem', color: project.color, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block', marginBottom: 8 }}>
+                        ✦ Impact
+                    </span>
+                    <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.7, marginBottom: 20 }}>
+                        {project.impact}
+                    </p>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 16 }}>
+                    {project.metrics.map(m => (
+                        <div key={m.label} style={{
+                            background: 'rgba(15,23,42,0.5)', border: `1px solid ${project.color}20`,
+                            borderRadius: 10, padding: '10px 12px', textAlign: 'center',
+                        }}>
+                            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: project.color }}>{m.value}</div>
+                            <div style={{ fontSize: '0.65rem', color: '#475569', marginTop: 2 }}>{m.label}</div>
+                        </div>
+                    ))}
+                </div>
+
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {project.demo && (
+                        <button
+                            onClick={() => scrollToDemo(project.demo)}
+                            style={{
+                                flex: 1, padding: '10px 0',
+                                background: `linear-gradient(135deg, ${project.color}, ${project.color}cc)`,
+                                border: 'none', borderRadius: 10, cursor: 'pointer',
+                                color: '#fff', fontSize: '0.78rem', fontWeight: 700,
+                                letterSpacing: '0.02em', transition: 'all 0.25s ease',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                            }}
+                            onMouseEnter={e => {
+                                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+                                    ; (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${project.color}40`
+                            }}
+                            onMouseLeave={e => {
+                                (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+                                    ; (e.currentTarget as HTMLElement).style.boxShadow = 'none'
+                            }}
+                        >
+                            ⚡ View Demo ↓
+                        </button>
+                    )}
+                    <div style={{
+                        display: 'flex', alignItems: 'center', gap: 4,
+                        color: project.color, fontSize: '0.75rem', fontWeight: 600,
+                        opacity: hovered ? 1 : 0.4, transition: 'opacity 0.3s',
+                        cursor: 'default',
+                    }}>
+                        <ArrowUpRight size={14} />
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
@@ -302,9 +209,10 @@ export default function Projects() {
                     <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.03em', marginBottom: 16 }}>
                         Real projects. <span className="gradient-text">Measurable results.</span>
                     </h2>
-                    <p style={{ fontSize: '1.05rem', color: '#64748b', maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>
-                        30+ delivered projects — each solving a real problem. The first 5 include{' '}
-                        <span style={{ color: '#22c55e', fontWeight: 600 }}>interactive demos</span> you can try yourself.
+                    <p style={{ fontSize: '1.05rem', color: '#64748b', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+                        30+ delivered projects. The ones marked{' '}
+                        <span style={{ color: '#22c55e', fontWeight: 600 }}>⚡ View Demo</span>{' '}
+                        have interactive simulations — click to explore them in the section below.
                     </p>
                 </div>
 
@@ -314,7 +222,6 @@ export default function Projects() {
                     ))}
                 </div>
 
-                {/* Show more / less */}
                 {!showAll && (
                     <div style={{ textAlign: 'center', marginTop: 40 }}>
                         <button
@@ -327,8 +234,14 @@ export default function Projects() {
                                 color: '#22c55e', fontSize: '0.9rem', fontWeight: 600,
                                 transition: 'all 0.3s ease',
                             }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.1)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)' }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(15,23,42,0.7)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)' }}
+                            onMouseEnter={e => {
+                                (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.1)'
+                                    ; (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
+                            }}
+                            onMouseLeave={e => {
+                                (e.currentTarget as HTMLElement).style.background = 'rgba(15,23,42,0.7)'
+                                    ; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
+                            }}
                         >
                             View All 30 Projects ↓
                         </button>

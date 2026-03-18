@@ -4,6 +4,7 @@ import Services from './components/Services'
 import Projects from './components/Projects'
 import WhyUs from './components/WhyUs'
 import TechStack from './components/TechStack'
+import DemoShowcase from './components/DemoShowcase'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -15,6 +16,7 @@ function App() {
                 <Hero />
                 <Services />
                 <Projects />
+                <DemoShowcase />
                 <WhyUs />
                 <TechStack />
                 <Contact />
