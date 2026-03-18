@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Star } from 'lucide-react'
 
 const stats = [
-    { value: '2000+', label: 'Projects Delivered' },
-    { value: '10+', label: 'Years Exp.' },
+    { value: '30+', label: 'Projects Delivered' },
+    { value: '6+', label: 'Years Exp.' },
     { value: '800+', label: 'Hours of Digital' },
-    { value: '150M+', label: 'In Tracked Revenue' },
+    { value: '3x', label: 'Average ROI' },
 ]
 
 export default function Hero() {
@@ -136,8 +136,8 @@ export default function Hero() {
                             </svg>
 
                             <img
-                                src="/hero-person.png"
-                                alt="Smiling tech professional looking confident"
+                                src="/hero-abstract.png"
+                                alt="3D floating tech cube"
                                 style={{
                                     maxWidth: '100%',
                                     height: 'auto',
@@ -165,7 +165,7 @@ export default function Hero() {
                                     {[1, 2, 3, 4, 5].map(i => <Star key={i} size={24} fill="currentColor" stroke="none" />)}
                                 </div>
                                 <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#000', lineHeight: 1 }}>
-                                    10 Years
+                                    6 Years
                                 </div>
                                 <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                     Experience
